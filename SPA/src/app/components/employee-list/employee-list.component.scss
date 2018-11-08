@@ -1,0 +1,8 @@
+.mat-row:hover {
+    cursor: pointer;
+    background-color: aliceblue;
+}
+
+.mat-row.active {
+    background-color: darken(aliceblue, 5%);
+}

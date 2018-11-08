@@ -1,0 +1,69 @@
+<form #form="ngForm" (ngSubmit)="save()">
+
+  <div class="row" *ngIf="employee">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+      <h5 class="mb-3">Employee Details</h5>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="employee.name" required #name="ngModel">
+        <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+          <div *ngIf="name.errors.required">Name is required.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="surname">Surname</label>
+        <input type="text" class="form-control" id="surname" name="surname" [(ngModel)]="employee.surname" required #surname="ngModel">
+        <div class="alert alert-danger" *ngIf="surname.touched && surname.invalid">
+          <div *ngIf="surname.errors.required">Surname is required.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="patronymic">Patronymic</label>
+        <input type="text" class="form-control" id="patronymic" name="patronymic" [(ngModel)]="employee.patronymic" #patronymic="ngModel">
+      </div>
+
+    </div>
+    <div class="col-12">
+      <h5>Employee's Items</h5>
+      <button class="btn btn-outline-info my-1" type="button" (click)="addItem()">Add Item</button>
+      <div class="mat-elevation-z8">
+        <table mat-table class="w-100 my-3" [dataSource]="dataSource">
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <td mat-footer-cell *matFooterCellDef>
+              <b>Total</b>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cost">
+            <th mat-header-cell *matHeaderCellDef> Cost </th>
+            <td mat-cell *matCellDef="let element"> {{element.cost | currency:'USD'}} </td>
+            <td mat-footer-cell *matFooterCellDef>
+              <b>{{getTotal() | currency:'USD'}}</b>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element">
+              <button class="btn btn-sm btn-link" type="button" (click)="editItem(element)">Edit</button> |
+              <button type="button" class="btn btn-sm btn-link" (click)="deleteItem(element)">Delete</button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-outline-primary" type="submit" [disabled]="form.invalid">Save</button>
+</form>
